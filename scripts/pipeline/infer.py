@@ -22,7 +22,7 @@ import soundfile as sf
 import torch
 
 from noiseremover.config import load_config
-from noiseremover.data.audio_utils import mel_mask_to_wav_cfg, load_audio, save_audio, mix_at_snr
+from noiseremover.data import mel_mask_to_wav_cfg, load_audio, save_audio, mix_at_snr
 from noiseremover.inference import denoise_file
 from noiseremover.utils import get_device, load_model
 

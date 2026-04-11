@@ -17,7 +17,7 @@ import torch
 from tqdm import tqdm
 
 from noiseremover.config import load_config
-from noiseremover.data.audio_utils import mel_mask_to_wav_cfg
+from noiseremover.data import mel_mask_to_wav_cfg
 from noiseremover.evaluator import compute_snr
 from noiseremover.utils import load_model
 

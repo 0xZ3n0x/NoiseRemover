@@ -20,7 +20,7 @@ import numpy as np
 import torch
 
 from noiseremover.config import load_config
-from noiseremover.data.audio_utils import load_audio, wav_to_mel_spectrogram, mel_mask_to_wav
+from noiseremover.data import load_audio, wav_to_mel_spectrogram, mel_mask_to_wav
 from noiseremover.utils import load_model
 
 N_RUNS = 10

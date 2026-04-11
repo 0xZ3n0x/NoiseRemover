@@ -1,8 +1,6 @@
 import numpy as np
 import torch
-import torchaudio
 import torchaudio.functional as F_audio
-import soundfile as sf
 
 
 # ---------------------------------------------------------------------------
@@ -74,7 +72,7 @@ def wav_batch_to_mel(
 
 
 # ---------------------------------------------------------------------------
-# Scalar helpers (used by trainer, evaluator, inference — CPU path)
+# Scalar helpers (used by inference / evaluation — CPU path)
 # ---------------------------------------------------------------------------
 
 def wav_to_mel_spectrogram(
@@ -120,9 +118,8 @@ def mel_mask_to_wav(
     import librosa
     mel_amplitude = librosa.db_to_amplitude(noisy_mel_db)
     enhanced_amplitude = mel_amplitude * mask
-    mel_amplitude = enhanced_amplitude
     mel_basis = librosa.filters.mel(sr=sample_rate, n_fft=n_fft, n_mels=n_mels, fmin=fmin, fmax=fmax)
-    magnitude = np.maximum(np.linalg.pinv(mel_basis) @ mel_amplitude, 0.0)
+    magnitude = np.maximum(np.linalg.pinv(mel_basis) @ enhanced_amplitude, 0.0)
     stft = magnitude * np.exp(1j * noisy_phase)
     return librosa.istft(stft, hop_length=hop_length, win_length=win_length).astype(np.float32)
 
@@ -139,25 +136,3 @@ def mel_mask_to_wav_cfg(
         cfg.n_fft, cfg.hop_length, cfg.win_length,
         cfg.n_mels, cfg.sample_rate, cfg.fmin, cfg.fmax,
     )
-
-
-def mix_at_snr(clean_wav: np.ndarray, noise_wav: np.ndarray, snr_db: float) -> np.ndarray:
-    clean_rms = np.sqrt(np.mean(clean_wav ** 2) + 1e-8)
-    noise_rms = np.sqrt(np.mean(noise_wav ** 2) + 1e-8)
-    scale = clean_rms / (noise_rms * 10 ** (snr_db / 20.0))
-    return (clean_wav + scale * noise_wav).astype(np.float32)
-
-
-def load_audio(path: str, sr: int) -> np.ndarray:
-    wav, orig_sr = sf.read(path, dtype="float32", always_2d=False)
-    if wav.ndim > 1:
-        wav = wav.mean(axis=1)
-    if orig_sr != sr:
-        wav_t = torch.from_numpy(wav).unsqueeze(0)
-        wav_t = torchaudio.functional.resample(wav_t, orig_sr, sr)
-        wav = wav_t.squeeze(0).numpy()
-    return wav.astype(np.float32)
-
-
-def save_audio(path: str, wav: np.ndarray, sr: int) -> None:
-    sf.write(path, wav, sr)

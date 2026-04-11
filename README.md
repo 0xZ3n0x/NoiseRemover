@@ -193,7 +193,14 @@ Trained on ~30k samples (LibriSpeech + ESC-50, 5 SNR levels: -5 to 15 dB, 251 sp
 ## Project Structure
 
 ```
-noiseremover/        # core library (model, trainer, evaluator, inference)
+noiseremover/
+  data/              # I/O (io.py), signal processing (transforms.py), dataset
+  model/             # U-Net architecture (unet.py, blocks.py)
+  train/             # training loop (trainer.py) and loss (losses.py)
+  config.py          # config dataclass and YAML loader
+  evaluator.py       # SNR / PESQ evaluation
+  inference.py       # sliding-window denoising pipeline
+  utils.py           # device selection, checkpoint loading
 scripts/
   pipeline/          # data prep, training, evaluation, inference
   analysis/          # result analysis and visualisation

@@ -24,7 +24,7 @@ import soundfile as sf
 from tqdm import tqdm
 
 from noiseremover.config import load_config
-from noiseremover.data.audio_utils import make_gpu_transforms, wav_batch_to_mel, mix_at_snr
+from noiseremover.data import make_gpu_transforms, wav_batch_to_mel, mix_at_snr
 
 
 # ---------------------------------------------------------------------------

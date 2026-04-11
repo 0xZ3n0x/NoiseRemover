@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from .config import Config
-from .data.audio_utils import mel_mask_to_wav_cfg
+from .data import mel_mask_to_wav_cfg
 
 
 def compute_snr(clean: np.ndarray, enhanced: np.ndarray) -> float:

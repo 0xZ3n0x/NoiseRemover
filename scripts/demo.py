@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 
 from noiseremover.config import load_config
 from noiseremover.inference import denoise_file
-from noiseremover.data.audio_utils import wav_to_mel_spectrogram
+from noiseremover.data import wav_to_mel_spectrogram
 from noiseremover.utils import load_model, get_device
 
 
