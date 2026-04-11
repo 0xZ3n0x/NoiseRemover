@@ -112,41 +112,41 @@ pip install -e .
 
 ```bash
 # From a test sample (.npz)
-python scripts/infer.py sample
+python scripts/pipeline/infer.py sample
 
 # From a full audio file mixed with ESC-50 noise
-python scripts/infer.py long --noise rain --snr 0
-python scripts/infer.py long --noise siren --snr 5
+python scripts/pipeline/infer.py long --noise rain --snr 0
+python scripts/pipeline/infer.py long --noise siren --snr 5
 
 # Use GPU
-python scripts/infer.py sample --device cuda
+python scripts/pipeline/infer.py sample --device cuda
 ```
 
 ### Interactive demo
 
 ```bash
-python scripts/demo.py          # CPU (default)
+python scripts/demo.py           # CPU (default)
 python scripts/demo.py --device cuda
-python scripts/demo.py --share  # public Gradio link
+python scripts/demo.py --share   # public Gradio link
 ```
 
 ### Training from scratch
 
 ```bash
 # Download datasets
-bash scripts/download_data.sh
+bash scripts/pipeline/download_data.sh
 
 # Prepare spectrogram pairs
-python scripts/prepare_data.py \
+python scripts/pipeline/prepare_data.py \
     --config configs/default.yaml \
     --max-files-per-speaker 5 \
     --max-chunks-per-file 5
 
 # Train
-python scripts/train.py --config configs/default.yaml --run-name baseline
+python scripts/pipeline/train.py --config configs/default.yaml --run-name baseline
 
 # Evaluate
-python scripts/evaluate.py --config configs/default.yaml --checkpoint checkpoints/best.pt
+python scripts/pipeline/evaluate.py --config configs/default.yaml --checkpoint checkpoints/best.pt
 ```
 
 ---
@@ -193,11 +193,15 @@ Trained on ~30k samples (LibriSpeech + ESC-50, 5 SNR levels: -5 to 15 dB, 251 sp
 ## Project Structure
 
 ```
-noiseremover/      # core library (model, trainer, evaluator, inference)
-scripts/           # CLI scripts
-configs/           # YAML hyperparameter configs
-results/           # evaluation figures and tables
-tests/             # unit tests
+noiseremover/        # core library (model, trainer, evaluator, inference)
+scripts/
+  pipeline/          # data prep, training, evaluation, inference
+  analysis/          # result analysis and visualisation
+  benchmark/         # inference speed benchmarks
+  demo.py            # interactive Gradio demo
+configs/             # YAML hyperparameter configs
+results/             # evaluation figures and tables
+tests/               # unit tests
 ```
 
 ---
