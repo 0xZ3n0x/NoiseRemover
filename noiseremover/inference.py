@@ -2,7 +2,7 @@ import numpy as np
 import torch
 
 from .config import Config
-from .audio_utils import wav_to_mel_spectrogram, mel_mask_to_wav, load_audio, save_audio
+from .data.audio_utils import wav_to_mel_spectrogram, mel_mask_to_wav, load_audio, save_audio
 
 
 def denoise_file(input_path: str, output_path: str, model: torch.nn.Module, cfg: Config, overlap: float = 0.5) -> np.ndarray:

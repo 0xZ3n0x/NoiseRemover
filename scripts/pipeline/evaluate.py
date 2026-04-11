@@ -12,7 +12,7 @@ import torch
 from torch.utils.data import DataLoader
 
 from noiseremover.config import load_config
-from noiseremover.dataset import NoisyCleanDataset
+from noiseremover.data.dataset import NoisyCleanDataset
 from noiseremover.evaluator import evaluate
 from noiseremover.utils import get_device, load_model
 

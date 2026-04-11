@@ -4,7 +4,7 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader
 
-from .config import Config
+from ..config import Config
 
 
 class NoisyCleanDataset(Dataset):

@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from noiseremover.audio_utils import wav_to_mel_spectrogram, mel_mask_to_wav, mix_at_snr
+from noiseremover.data.audio_utils import wav_to_mel_spectrogram, mel_mask_to_wav, mix_at_snr
 
 
 SR = 16000

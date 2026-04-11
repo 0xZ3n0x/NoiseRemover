@@ -14,10 +14,10 @@ import torch
 import torch.optim as optim
 
 from noiseremover.config import load_config
-from noiseremover.dataset import make_dataloaders
+from noiseremover.data.dataset import make_dataloaders
 from noiseremover.model import UNet
-from noiseremover.losses import SpectralLoss
-from noiseremover.trainer import Trainer
+from noiseremover.train.losses import SpectralLoss
+from noiseremover.train.trainer import Trainer
 from noiseremover.utils import get_device
 
 

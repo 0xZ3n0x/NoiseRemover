@@ -3,7 +3,7 @@ import torch
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
-from .config import Config
+from ..config import Config
 
 
 class Trainer:
