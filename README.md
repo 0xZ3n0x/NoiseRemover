@@ -221,9 +221,3 @@ Our model trades peak quality for deployability: it runs 13.8× faster than real
 
 ---
 
-## References
-
-- SEGAN (Pascual et al., 2017)
-- Wave-U-Net (Stoller et al., 2018)
-- Facebook Denoiser (Défossez et al., 2020)
-- CleanUNet (Kong et al., 2022)
