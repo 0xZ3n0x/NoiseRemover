@@ -1,0 +1,28 @@
+sample_rate: 16000
+clip_duration_s: 4.0
+n_fft: 1024
+hop_length: 256
+win_length: 1024
+n_mels: 128
+fmin: 0.0
+fmax: 8000.0
+
+snr_levels_db: [-5, 0, 5, 10, 15]
+val_split: 0.05
+test_split: 0.05
+dataset_root: dataset
+processed_root: dataset/processed
+
+base_channels: 32
+depth: 5
+
+batch_size: 16
+num_workers: 4
+max_epochs: 100
+learning_rate: 0.001
+weight_decay: 0.0001
+grad_clip: 1.0
+early_stopping_patience: 10
+
+checkpoint_dir: checkpoints
+log_dir: runs
