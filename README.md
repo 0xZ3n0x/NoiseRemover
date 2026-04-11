@@ -186,7 +186,7 @@ Trained on ~30k samples (LibriSpeech + ESC-50, 5 SNR levels: -5 to 15 dB, 251 sp
 | 10 dB | 7.91 dB | 3.27 |
 | 15 dB | 4.47 dB | 3.41 |
 
-**Inference speed (CPU):** 120.7 ms per 4-second chunk → 13.8x realtime
+**Inference speed (CPU):** 119–130 ms per 4-second chunk → ~13–14× realtime
 
 ---
 
@@ -206,18 +206,17 @@ tests/             # unit tests
 
 Results below are from different benchmarks (VoiceBank-DEMAND vs. our LibriSpeech+ESC-50) and should be read as a directional comparison only.
 
-| | **Ours** | SEGAN | Wave-U-Net | Facebook Denoiser | CleanUNet |
-|---|---|---|---|---|---|
-| Year | 2024 | 2017 | 2018 | 2020 | 2022 |
-| Domain | Mel-spectrogram | Waveform | Waveform | Waveform | Waveform |
-| Architecture | U-Net (2D) | GAN | U-Net (1D) | U-Net + LSTM | U-Net + Attention |
-| Output | Magnitude mask | Waveform | Waveform | Waveform | Waveform |
-| Parameters | ~31M | ~97M | ~16M | ~33M | ~44M |
-| CPU realtime | **13.8×** | ✗ | ✗ | ✓ (GPU opt.) | ✗ |
-| SNRi | 8.49 dB | ~7.4 dB | ~8.0 dB | ~10.5 dB | ~11.0 dB |
-| PESQ | 2.84 | 2.16 | 2.40 | 2.90 | 3.10 |
+| | **Ours** | [Wave-U-Net](https://github.com/f90/Wave-U-Net) | [Facebook Denoiser](https://github.com/facebookresearch/denoiser) | [CleanUNet](https://github.com/NVIDIA/CleanUNet) |
+|---|---|---|---|---|
+| Domain | Mel-spectrogram | Waveform | Waveform | Waveform |
+| Architecture | U-Net (2D) | U-Net (1D) | U-Net + LSTM | U-Net + Attention |
+| Output | Magnitude mask | Waveform | Waveform | Waveform |
+| Parameters | ~31M | ~16M | ~33M | ~44M |
+| CPU realtime | **~13–14×** | ✗ | ✓ (GPU opt.) | ✗ |
+| SNRi | 8.49 dB | ~8.0 dB | ~10.5 dB | ~11.0 dB |
+| PESQ | 2.84 | 2.40 | 2.90 | 3.10 |
 
-Our model trades peak quality for deployability: it runs 13.8× faster than realtime on CPU with no GPU required, using a simple and interpretable mask-based pipeline.
+Our model trades peak quality for deployability: it runs ~13–14× faster than realtime on CPU with no GPU required, using a simple and interpretable mask-based pipeline.
 
 ---
 
