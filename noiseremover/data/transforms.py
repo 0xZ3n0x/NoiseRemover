@@ -116,10 +116,9 @@ def mel_mask_to_wav(
 ) -> np.ndarray:
     """Apply mask and reconstruct waveform via iSTFT (inference)."""
     import librosa
-    mel_amplitude = librosa.db_to_amplitude(noisy_mel_db)
-    enhanced_amplitude = mel_amplitude * mask
+    mel_amplitude = librosa.db_to_amplitude(noisy_mel_db) * mask
     mel_basis = librosa.filters.mel(sr=sample_rate, n_fft=n_fft, n_mels=n_mels, fmin=fmin, fmax=fmax)
-    magnitude = np.maximum(np.linalg.pinv(mel_basis) @ enhanced_amplitude, 0.0)
+    magnitude = np.maximum(np.linalg.pinv(mel_basis) @ mel_amplitude, 0.0)
     stft = magnitude * np.exp(1j * noisy_phase)
     return librosa.istft(stft, hop_length=hop_length, win_length=win_length).astype(np.float32)
 

@@ -14,17 +14,16 @@ Usage:
 import argparse
 import os
 import random
+from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import torch
-import torchaudio
-import soundfile as sf
 from tqdm import tqdm
 
 from noiseremover.config import load_config
-from noiseremover.data import make_gpu_transforms, wav_batch_to_mel, mix_at_snr
+from noiseremover.data import make_gpu_transforms, wav_batch_to_mel, mix_at_snr, load_audio
 
 
 # ---------------------------------------------------------------------------
@@ -38,18 +37,6 @@ def glob_audio(root, exts=(".flac", ".wav")):
 def speaker_id(path):
     # LibriSpeech: .../speaker/chapter/file.flac
     return Path(path).parts[-3]
-
-
-def load_audio_sf(path: str, target_sr: int) -> np.ndarray:
-    """Load audio with soundfile + resample with torchaudio if needed."""
-    wav, sr = sf.read(path, dtype="float32", always_2d=False)
-    if wav.ndim > 1:
-        wav = wav.mean(axis=1)
-    if sr != target_sr:
-        wav_t = torch.from_numpy(wav).unsqueeze(0)
-        wav_t = torchaudio.functional.resample(wav_t, sr, target_sr)
-        wav = wav_t.squeeze(0).numpy()
-    return wav.astype(np.float32)
 
 
 def preload_noise(noise_files: list, sr: int) -> dict:
@@ -100,7 +87,7 @@ def main():
     print(f"Device: {device} ({gpu_name})")
 
     transforms = make_gpu_transforms(cfg, device)
-    chunk_samples = int(cfg.sample_rate * cfg.clip_duration_s)
+    chunk_samples = cfg.clip_samples
 
     # --- Index clean files ---
     libri_root = os.path.join(cfg.dataset_root, "librispeech")
@@ -110,7 +97,6 @@ def main():
     clean_files = glob_audio(libri_root)
 
     # Group files by speaker and optionally limit per speaker
-    from collections import defaultdict
     speaker_files = defaultdict(list)
     for f in clean_files:
         speaker_files[speaker_id(f)].append(f)
@@ -180,7 +166,7 @@ def main():
         split = get_split(clean_path)
 
         try:
-            clean_wav = load_audio_sf(clean_path, cfg.sample_rate)
+            clean_wav = load_audio(clean_path, cfg.sample_rate)
         except Exception:
             continue
 

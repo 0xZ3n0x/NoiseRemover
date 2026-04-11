@@ -32,7 +32,6 @@ from noiseremover.utils import get_device, load_model
 # ---------------------------------------------------------------------------
 
 def run_sample(args, cfg, model):
-    import librosa
     device = next(model.parameters()).device
 
     npz_path = args.npz or str(random.choice(
