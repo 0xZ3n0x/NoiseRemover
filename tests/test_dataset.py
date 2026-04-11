@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 import torch
 
-from noiseremover.dataset import NoisyCleanDataset
+from noiseremover.data.dataset import NoisyCleanDataset
 from noiseremover.config import Config
 
 
